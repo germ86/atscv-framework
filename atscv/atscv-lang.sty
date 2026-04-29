@@ -1,0 +1,16 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{atscv-lang}[2026/04/29 v0.1.0 language support]
+\RequirePackage[bidi=basic]{babel}
+\babelprovide[import]{english}
+\babelprovide[import]{german}
+\babelprovide[import]{spanish}
+\babelprovide[import]{french}
+\babelprovide[import]{arabic}
+\babelprovide[import]{hindi}
+\babelprovide[import]{chinese}
+\IfFontExistsTF{Times New Roman}{\babelfont{rm}{Times New Roman}}{\babelfont{rm}{TeX Gyre Termes}}
+\IfFontExistsTF{Amiri}{\babelfont[arabic]{rm}{Amiri}}{\babelfont[arabic]{rm}{FreeSerif}}
+\IfFontExistsTF{Noto Serif Devanagari}{\babelfont[hindi]{rm}{Noto Serif Devanagari}}{\babelfont[hindi]{rm}{FreeSerif}}
+\IfFontExistsTF{FandolSong}{\babelfont[chinese]{rm}{FandolSong}}{\babelfont[chinese]{rm}{Noto Serif CJK SC}}
+\newcommand{\atscvSectionMap}[1]{#1}
+\endinput

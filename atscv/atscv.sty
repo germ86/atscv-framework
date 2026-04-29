@@ -1,0 +1,44 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{atscv}[2026/04/29 v0.1.0 ATS-safe CV core]
+\RequirePackage{expl3,xparse}
+\RequirePackage{fontspec}
+\RequirePackage{enumitem}
+\RequirePackage{hyperref}
+\RequirePackage{geometry}
+\RequirePackage{tagpdf}
+\tagpdfsetup{activate-all,interwordspace=true}
+\geometry{margin=1in}
+\IfFontExistsTF{Times New Roman}{\setmainfont{Times New Roman}[Ligatures=NoCommon]}{\setmainfont{TeX Gyre Termes}[Ligatures=NoCommon]}
+\IfFontExistsTF{Arial}{\setsansfont{Arial}[Ligatures=NoCommon]}{\setsansfont{TeX Gyre Heros}[Ligatures=NoCommon]}
+\defaultfontfeatures{Ligatures=NoCommon}
+\setlist[itemize]{leftmargin=1.5em,itemsep=0.2em,topsep=0.2em}
+\hypersetup{hidelinks,unicode=true,pdfencoding=auto}
+
+\ExplSyntaxOn
+\keys_define:nn { atscv } {
+  mode .tl_set:N = \l__atscv_mode_tl,
+  mode .initial:n = ats,
+  lang .tl_set:N = \l__atscv_lang_tl,
+  lang .initial:n = en,
+  atsstrict .bool_set:N = \l__atscv_strict_bool,
+  atsstrict .initial:n = true
+}
+\NewDocumentCommand{\atscvsetup}{m}{\keys_set:nn{atscv}{#1}}
+
+\NewDocumentCommand{\cvname}{m}{\par\section*{#1}}
+\NewDocumentCommand{\cvtitle}{m}{\par\textbf{#1}\par}
+\NewDocumentCommand{\cvcontact}{m}{\par #1\par}
+\NewDocumentEnvironment{cvprofile}{}{\section*{Profile}}{}
+\NewDocumentCommand{\cvsection}{m}{\section*{#1}}
+\NewDocumentEnvironment{cvrole}{mmmm}{%
+\par\textbf{#1} --- #2\par #3 \quad #4\par\begin{itemize}
+}{\end{itemize}}
+\NewDocumentCommand{\cvachievement}{m}{\item #1}
+\NewDocumentCommand{\cvskillgroup}{mm}{\par\textbf{#1}: #2\par}
+\NewDocumentCommand{\cvkpi}{mm}{\par\textbf{#1}: #2\par}
+\NewDocumentCommand{\cvboardrole}{m}{\par\textbf{Board Role}: #1\par}
+\NewDocumentCommand{\cvscope}{m}{\par\textbf{Scope}: #1\par}
+\NewDocumentCommand{\cvtransformation}{m}{\par\textbf{Transformation}: #1\par}
+\ExplSyntaxOff
+
+\endinput
