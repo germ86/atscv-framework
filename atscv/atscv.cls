@@ -14,11 +14,12 @@
 \RequirePackage{atscv-lang}
 \RequirePackage{ifthen}
 
-\newcommand\atscv@mode{\atscv@mode}
-\newcommand\atscv@lang{\atscv@lang}
-
 \AtBeginDocument{%
-  \atscvsetup{mode=\atscv@mode,lang=\atscv@lang,atsstrict=\ifatscv@atsstrict true\else false\fi}%
+  \ifatscv@atsstrict
+    \atscvsetup{mode=\atscv@mode,lang=\atscv@lang,atsstrict=true}%
+  \else
+    \atscvsetup{mode=\atscv@mode,lang=\atscv@lang,atsstrict=false}%
+  \fi
 }
 
 \endinput

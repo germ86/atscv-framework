@@ -8,8 +8,8 @@
 \RequirePackage{tagpdf}
 \tagpdfsetup{activate-all,interwordspace=true}
 \geometry{margin=1in}
-\setmainfont{Times New Roman}[Ligatures=NoCommon]
-\setsansfont{Arial}[Ligatures=NoCommon]
+\IfFontExistsTF{Times New Roman}{\setmainfont{Times New Roman}[Ligatures=NoCommon]}{\setmainfont{TeX Gyre Termes}[Ligatures=NoCommon]}
+\IfFontExistsTF{Arial}{\setsansfont{Arial}[Ligatures=NoCommon]}{\setsansfont{TeX Gyre Heros}[Ligatures=NoCommon]}
 \defaultfontfeatures{Ligatures=NoCommon}
 \setlist[itemize]{leftmargin=1.5em,itemsep=0.2em,topsep=0.2em}
 \hypersetup{hidelinks,unicode=true,pdfencoding=auto}

@@ -8,9 +8,9 @@
 \babelprovide[import]{arabic}
 \babelprovide[import]{hindi}
 \babelprovide[import]{chinese}
-\babelfont{rm}{Times New Roman}
-\babelfont[arabic]{rm}{Amiri}
-\babelfont[hindi]{rm}{Noto Serif Devanagari}
-\babelfont[chinese]{rm}{FandolSong}
+\IfFontExistsTF{Times New Roman}{\babelfont{rm}{Times New Roman}}{\babelfont{rm}{TeX Gyre Termes}}
+\IfFontExistsTF{Amiri}{\babelfont[arabic]{rm}{Amiri}}{\babelfont[arabic]{rm}{FreeSerif}}
+\IfFontExistsTF{Noto Serif Devanagari}{\babelfont[hindi]{rm}{Noto Serif Devanagari}}{\babelfont[hindi]{rm}{FreeSerif}}
+\IfFontExistsTF{FandolSong}{\babelfont[chinese]{rm}{FandolSong}}{\babelfont[chinese]{rm}{Noto Serif CJK SC}}
 \newcommand{\atscvSectionMap}[1]{#1}
 \endinput
