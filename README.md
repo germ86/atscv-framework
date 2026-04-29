@@ -1,46 +1,48 @@
-# atscv-framework
+# atscv
 
-ATS-safe LaTeX CV framework for Big Tech, executive search, consulting, infrastructure, security, cloud, and human-risk roles.
+atscv is a stable LaTeX CV framework focused on ATS-safe linear extraction and polished single-column presentation.
 
-## Compiler requirements
-- LuaLaTeX
-- pdftotext
-- qpdf
+## Why ATS-safe LaTeX matters
+Most ATS pipelines flatten PDFs into linear text. Complex layout primitives (tables, sidebars, multicolumn blocks) often scramble extraction order. atscv keeps content in logical reading order.
 
-## Design modes
-- `ats`: strict parsing mode, black/white only, no decoration.
-- `modern`: Big Tech style with subtle accent hierarchy.
-- `executive`: KPI-first leadership narrative.
-- `consulting`: concise impact-first structure.
-- `compact`: space-efficient one-page mode.
+## Requirements
+- LuaLaTeX only
+- TeX Live with `fontspec`, `babel`, `hyperref`
+- Optional: `pdftotext` for extraction checks
 
-## ATS-safe policy
-- No hidden text.
-- No white-on-white keyword stuffing.
-- No tables, multicol, minipage, parbox, sidebars, or text boxes.
+## Quick start
+```bash
+lualatex main.tex
+pdftotext main.pdf main.txt
+```
 
-## Keyword helper philosophy
-Use transparent alignment helpers:
-- `\cvtargetrole{...}`
-- `\cvkeywordgroup{category}{keywords}`
-- `\cvcompetency{competency}{evidence}`
-- `\cvrolefit{role}{fit statement}`
-- `\cvtechstack{category}{tools}`
-- `\cvdomainfocus{...}`
+## Modes
+- `ats`: strict black-and-white parsing reliability
+- `modern`: polished Big Tech profile
+- `executive`: leadership and KPI emphasis
+- `consulting`: concise impact-focused style
+- `compact`: reduced spacing for dense profiles
 
-## Cover letter mapping
-See `docs/cv-cover-letter-mapping.md` for requirement-to-evidence mapping and reusable argument tables.
+## Multilingual support
+Supported `lang=` options: `en`, `de`, `es`, `fr`, `zh`, `ar`, `hi`.
 
-## Interview response frameworks
-See `docs/interview-response-frameworks.md` for STAR, OODA, and combined technical interview examples.
+## Design philosophy
+- single-column only
+- strict semantic macros
+- readable hierarchy for a 30-second human scan
+- ATS-safe extraction first
+
+## ATS limitations
+No framework can guarantee identical parsing across every ATS vendor. Validate each output with `pdftotext` and target-system uploads.
+
+## Examples
+See `examples/` for minimal, Fabio role-tailored variants, and multilingual samples.
 
 ## Validation workflow
 ```bash
-lualatex main.tex
-lualatex examples/fabio-bigtech-modern.tex
-lualatex examples/fabio-executive.tex
-lualatex examples/fabio-consulting.tex
-lualatex examples/fabio-ats.tex
-pdftotext output.pdf output.txt
-qpdf --check output.pdf
+bash tests/compile-all.sh
+bash tests/extract-text.sh
 ```
+
+## Future roadmap
+PDF/UA tagging is intentionally postponed. Future optional mode may evaluate robust tagging once stability constraints are met.

@@ -1,0 +1,28 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{atscv-lang}[2026/04/29 v0.1.0 language support]
+\RequirePackage[bidi=basic]{babel}
+\RequirePackage{fontspec}
+
+\newfontfamily\cvzhfont{FandolSong-Regular}[Script=CJK]
+\IfFontExistsTF{FandolSong-Regular}{}{
+  \IfFontExistsTF{FandolSong}{\renewcommand\cvzhfont{\fontspec{FandolSong}}}{\PackageWarning{atscv-lang}{Chinese font missing; fallback to main font}}
+}
+\IfFontExistsTF{Amiri}{\newfontfamily\cvarfont{Amiri}[Script=Arabic]}{\newcommand{\cvarfont}{}\PackageWarning{atscv-lang}{Amiri not found; Arabic will fallback to main font}}
+\IfFontExistsTF{Noto Serif Devanagari}{\newfontfamily\cvhifont{Noto Serif Devanagari}[Script=Devanagari]}{\IfFontExistsTF{Noto Sans Devanagari}{\newfontfamily\cvhifont{Noto Sans Devanagari}[Script=Devanagari]}{\newcommand{\cvhifont}{}\PackageWarning{atscv-lang}{Devanagari font not found; Hindi will fallback to main font}}}
+
+\newcommand{\atscvsetlang}[1]{\csname atscv@lang@#1\endcsname}
+\newcommand{\atscv@lang@en}{\selectlanguage{english}%
+\def\headingProfile{Profile}\def\headingExperience{Professional Experience}\def\headingEducation{Education}\def\headingSkills{Skills}\def\headingCertifications{Certifications}\def\headingProjects{Projects}\def\headingResearch{Research and Innovation}\def\headingLanguages{Languages}\def\headingCommunity{Community and Event Infrastructure}\def\headingSummary{Summary}\def\headingSelectedProjects{Selected Projects}}
+\newcommand{\atscv@lang@de}{\selectlanguage{ngerman}%
+\def\headingProfile{Profil}\def\headingExperience{Berufserfahrung}\def\headingEducation{Ausbildung}\def\headingSkills{Kenntnisse}\def\headingCertifications{Zertifikate}\def\headingProjects{Projekte}\def\headingResearch{Forschung und Innovation}\def\headingLanguages{Sprachen}\def\headingCommunity{Community- und Event-Infrastruktur}\def\headingSummary{Zusammenfassung}\def\headingSelectedProjects{Ausgewählte Projekte}}
+\newcommand{\atscv@lang@es}{\selectlanguage{spanish}%
+\def\headingProfile{Perfil}\def\headingExperience{Experiencia Profesional}\def\headingEducation{Educación}\def\headingSkills{Habilidades}\def\headingCertifications{Certificaciones}\def\headingProjects{Proyectos}\def\headingResearch{Investigación e Innovación}\def\headingLanguages{Idiomas}\def\headingCommunity{Infraestructura Comunitaria y de Eventos}\def\headingSummary{Resumen}\def\headingSelectedProjects{Proyectos Seleccionados}}
+\newcommand{\atscv@lang@fr}{\selectlanguage{french}%
+\def\headingProfile{Profil}\def\headingExperience{Expérience Professionnelle}\def\headingEducation{Formation}\def\headingSkills{Compétences}\def\headingCertifications{Certifications}\def\headingProjects{Projets}\def\headingResearch{Recherche et Innovation}\def\headingLanguages{Langues}\def\headingCommunity{Infrastructure Communautaire et Événementielle}\def\headingSummary{Résumé}\def\headingSelectedProjects{Projets Sélectionnés}}
+\newcommand{\atscv@lang@zh}{\selectlanguage{english}\cvzhfont
+\def\headingProfile{简介}\def\headingExperience{工作经验}\def\headingEducation{教育}\def\headingSkills{技能}\def\headingCertifications{认证}\def\headingProjects{项目}\def\headingResearch{研究与创新}\def\headingLanguages{语言}\def\headingCommunity{社区与活动基础设施}\def\headingSummary{摘要}\def\headingSelectedProjects{精选项目}}
+\newcommand{\atscv@lang@ar}{\selectlanguage{english}\cvarfont
+\def\headingProfile{الملف الشخصي}\def\headingExperience{الخبرة المهنية}\def\headingEducation{التعليم}\def\headingSkills{المهارات}\def\headingCertifications{الشهادات}\def\headingProjects{المشاريع}\def\headingResearch{البحث والابتكار}\def\headingLanguages{اللغات}\def\headingCommunity{البنية التحتية للمجتمع والفعاليات}\def\headingSummary{الملخص}\def\headingSelectedProjects{المشاريع المختارة}}
+\newcommand{\atscv@lang@hi}{\selectlanguage{english}\cvhifont
+\def\headingProfile{प्रोफ़ाइल}\def\headingExperience{व्यावसायिक अनुभव}\def\headingEducation{शिक्षा}\def\headingSkills{कौशल}\def\headingCertifications{प्रमाणपत्र}\def\headingProjects{परियोजनाएँ}\def\headingResearch{अनुसंधान और नवाचार}\def\headingLanguages{भाषाएँ}\def\headingCommunity{समुदाय और कार्यक्रम अवसंरचना}\def\headingSummary{सारांश}\def\headingSelectedProjects{चयनित परियोजनाएँ}}
+\atscv@lang@en

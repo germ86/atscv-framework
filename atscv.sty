@@ -1,0 +1,153 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{atscv}[2026/04/29 v0.1.0 ATS-safe CV style]
+
+\RequirePackage{xcolor}
+\RequirePackage{fontspec}
+\RequirePackage{enumitem}
+\RequirePackage{xparse}
+\RequirePackage{etoolbox}
+
+\setmainfont{TeX Gyre Termes}[Ligatures=NoCommon]
+\setsansfont{TeX Gyre Heros}[Ligatures=NoCommon]
+\newfontfamily\cvseriffont{TeX Gyre Termes}[Ligatures=NoCommon]
+\newfontfamily\cvsansfont{TeX Gyre Heros}[Ligatures=NoCommon]
+
+\newcommand{\atscv@setmode@ats}{%
+  \colorlet{cvPrimary}{black}
+  \colorlet{cvAccent}{black}
+  \colorlet{cvMuted}{black}
+  \def\cvNameSize{\fontsize{20}{24}\selectfont}
+  \def\cvTitleSize{\fontsize{11}{13}\selectfont}
+  \def\cvSectionSize{\fontsize{12}{14}\selectfont}
+  \def\cvBodySize{\fontsize{10.5}{13}\selectfont}
+  \def\cvSectionSpacing{0.9em}
+  \def\cvEntrySpacing{0.5em}
+  \def\cvBulletSpacing{0.25em}
+  \def\cvDividerThickness{0.2pt}
+}
+
+\newcommand{\atscv@setmode@modern}{%
+  \colorlet{cvPrimary}{black}
+  \colorlet{cvAccent}{blue!55!black}
+  \colorlet{cvMuted}{black!60}
+  \def\cvNameSize{\fontsize{24}{28}\selectfont}
+  \def\cvTitleSize{\fontsize{12}{15}\selectfont}
+  \def\cvSectionSize{\fontsize{13}{15}\selectfont}
+  \def\cvBodySize{\fontsize{10.5}{13.5}\selectfont}
+  \def\cvSectionSpacing{1.1em}
+  \def\cvEntrySpacing{0.65em}
+  \def\cvBulletSpacing{0.28em}
+  \def\cvDividerThickness{0.4pt}
+}
+
+\newcommand{\atscv@setmode@executive}{%
+  \colorlet{cvPrimary}{black}
+  \colorlet{cvAccent}{black!80!blue}
+  \colorlet{cvMuted}{black!55}
+  \def\cvNameSize{\fontsize{26}{30}\selectfont}
+  \def\cvTitleSize{\fontsize{13}{16}\selectfont}
+  \def\cvSectionSize{\fontsize{14}{16}\selectfont}
+  \def\cvBodySize{\fontsize{11}{14}\selectfont}
+  \def\cvSectionSpacing{1.3em}
+  \def\cvEntrySpacing{0.8em}
+  \def\cvBulletSpacing{0.35em}
+  \def\cvDividerThickness{0.5pt}
+}
+
+\newcommand{\atscv@setmode@consulting}{%
+  \colorlet{cvPrimary}{black}
+  \colorlet{cvAccent}{black!75}
+  \colorlet{cvMuted}{black!50}
+  \def\cvNameSize{\fontsize{22}{26}\selectfont}
+  \def\cvTitleSize{\fontsize{11.5}{14}\selectfont}
+  \def\cvSectionSize{\fontsize{12.5}{14.5}\selectfont}
+  \def\cvBodySize{\fontsize{10.5}{13.2}\selectfont}
+  \def\cvSectionSpacing{1.0em}
+  \def\cvEntrySpacing{0.55em}
+  \def\cvBulletSpacing{0.2em}
+  \def\cvDividerThickness{0.35pt}
+}
+
+\newcommand{\atscv@setmode@compact}{%
+  \colorlet{cvPrimary}{black}
+  \colorlet{cvAccent}{black!70!blue}
+  \colorlet{cvMuted}{black!60}
+  \def\cvNameSize{\fontsize{20}{23}\selectfont}
+  \def\cvTitleSize{\fontsize{11}{12.5}\selectfont}
+  \def\cvSectionSize{\fontsize{12}{13.5}\selectfont}
+  \def\cvBodySize{\fontsize{10}{12.2}\selectfont}
+  \def\cvSectionSpacing{0.7em}
+  \def\cvEntrySpacing{0.35em}
+  \def\cvBulletSpacing{0.15em}
+  \def\cvDividerThickness{0.25pt}
+}
+
+\newcommand{\atscvsetmode}[1]{%
+  \ifcsdef{atscv@setmode@#1}{\csname atscv@setmode@#1\endcsname}{%
+    \PackageWarning{atscv}{Unknown mode '#1'. Falling back to modern}
+    \atscv@setmode@modern
+  }%
+}
+\newcommand{\cvsetmode}[1]{\atscvsetmode{#1}}
+\atscv@setmode@modern
+
+\newcommand{\atscv@name}{}
+\newcommand{\atscv@title}{}
+\newcommand{\atscv@email}{}
+\newcommand{\atscv@phone}{}
+\newcommand{\atscv@location}{}
+\newcommand{\atscv@linkedin}{}
+\newcommand{\atscv@orcid}{}
+\newcommand{\atscv@doi}{}
+
+\newcommand{\cvname}[1]{\gdef\atscv@name{#1}}
+\newcommand{\cvtitle}[1]{\gdef\atscv@title{#1}}
+\newcommand{\cvemail}[1]{\gdef\atscv@email{#1}}
+\newcommand{\cvphone}[1]{\gdef\atscv@phone{#1}}
+\newcommand{\cvlocation}[1]{\gdef\atscv@location{#1}}
+\newcommand{\cvlinkedin}[1]{\gdef\atscv@linkedin{#1}}
+\newcommand{\cvorcid}[1]{\gdef\atscv@orcid{#1}}
+\newcommand{\cvdoi}[1]{\gdef\atscv@doi{#1}}
+
+\setlist[itemize]{leftmargin=1.2em,itemsep=0.2em,topsep=0.2em}
+\pagestyle{empty}
+\setlength{\parindent}{0pt}
+
+\newcommand{\makecvheader}{%
+  {\cvsansfont\cvNameSize\color{cvPrimary}\bfseries \atscv@name\par}
+  \vspace{0.2em}
+  {\cvsansfont\cvTitleSize\color{cvAccent}\atscv@title\par}
+  \vspace{0.35em}
+  {\cvBodySize\color{cvMuted}
+  \atscv@email\enspace|\enspace\atscv@phone\enspace|\enspace\atscv@location\par
+  LinkedIn: \atscv@linkedin\enspace|\enspace ORCID: \atscv@orcid\enspace|\enspace DOI: \atscv@doi\par}
+  \vspace{0.6em}
+  \textcolor{cvAccent}{\rule{\linewidth}{\cvDividerThickness}}\par
+}
+
+\newcommand{\cvsection}[1]{%
+  \vspace{\cvSectionSpacing}
+  {\cvsansfont\cvSectionSize\bfseries\color{cvAccent} #1\par}
+  \vspace{0.25em}
+}
+
+\newcommand{\cvprofile}[1]{{\cvBodySize\color{cvPrimary}#1\par}}
+\newcommand{\cvachievement}[1]{\par\noindent\textbullet\ #1\par}
+\newcommand{\cvimpact}[1]{\par\noindent\textbf{Impact:} #1\par}
+\newcommand{\cvhighlight}[1]{\par\noindent\textbf{Highlight:} #1\par}
+\newcommand{\cvkpi}[2]{\par\noindent\textbf{#1:} #2\par}
+
+\newcommand{\cventry}[4]{%
+  \vspace{\cvEntrySpacing}
+  {\cvsansfont\bfseries\color{cvPrimary}#1\hfill\color{cvMuted}#2\par}
+  {\itshape\color{cvMuted}#3\par}
+  {\cvBodySize\color{cvPrimary}#4\par}
+}
+
+\newcommand{\cventryfive}[5]{\cventry{#1 | #2}{#4}{#3}{#5}}
+\newcommand{\cvskills}[1]{{\cvBodySize #1\par}}
+\newcommand{\cvskillgroup}[2]{\par\noindent\textbf{#1:} #2\par}
+\newcommand{\cvproject}[3]{\cventry{#1}{#2}{}{#3}}
+\newcommand{\cvcertification}[3]{\cventry{#1}{#3}{#2}{}}
+\newcommand{\cveducation}[3]{\cventry{#1}{#3}{#2}{}}
+\newcommand{\cvcommunity}[3]{\cventry{#1}{#2}{}{#3}}
