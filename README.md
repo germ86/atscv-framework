@@ -1,6 +1,6 @@
 # atscv-framework
 
-Production-ready ATS-safe LaTeX CV system with multi-mode design layers, reusable macros, and validation workflow.
+Production-ready ATS-safe LaTeX CV system with multi-mode design layers, multilingual support, reusable macros, and validation workflow.
 
 ## Quick start
 
@@ -8,6 +8,21 @@ Production-ready ATS-safe LaTeX CV system with multi-mode design layers, reusabl
 lualatex -interaction=nonstopmode -output-directory=build examples/minimal.tex
 pdftotext build/minimal.pdf -
 ```
+
+## Language support
+
+Class option:
+
+```tex
+\documentclass[lang=en]{atscv}
+```
+
+Supported: `en`, `de`, `es`, `fr`, `zh`, `ar` (RTL), `hi`.
+
+Implementation details:
+- LuaLaTeX only
+- `babel` with `bidi=basic`
+- `fontspec` fallback families for Latin, CJK, Arabic, and Devanagari
 
 ## Design modes
 
@@ -17,7 +32,7 @@ pdftotext build/minimal.pdf -
 - `consulting`: structured, McKinsey-like section discipline.
 - `compact`: dense 1-page optimization with reduced whitespace.
 
-All modes remain ATS-safe by design:
+ATS constraints preserved:
 - no tables
 - no multicol
 - no minipage
@@ -25,15 +40,8 @@ All modes remain ATS-safe by design:
 
 ## Core macros
 
-- `\cvprofile`
-- `\cvsection`
-- `\cventry`
-- `\cvachievement`
-- `\cvskills`
-- `\cvimpact`
-- `\cvkpi`
-- `\cvproject`
-- `\cvhighlight`
+- `\cvprofile`, `\cvsection`, `\cventry`, `\cvachievement`, `\cvskills`
+- `\cvimpact`, `\cvkpi`, `\cvproject`, `\cvhighlight`
 
 ## Examples
 
@@ -43,14 +51,13 @@ All modes remain ATS-safe by design:
 - `examples/fabio-consulting.tex`
 - `examples/fabio-ats.tex`
 - `examples/de-careertrack.tex`
+- `examples/multilang-en.tex`
+- `examples/multilang-de.tex`
+- `examples/multilang-zh.tex`
+- `examples/multilang-ar.tex`
+- `examples/multilang-hi.tex`
 
 ## Documentation
 
 - Manual source: `docs/atscv-manual.tex`
-
-## Screenshot placeholders
-
-- `docs/screenshots/ats-mode.png` (placeholder)
-- `docs/screenshots/modern-mode.png` (placeholder)
-- `docs/screenshots/executive-mode.png` (placeholder)
 
