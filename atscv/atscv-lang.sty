@@ -1,0 +1,16 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{atscv-lang}[2026/04/29 v0.1.0 language support]
+\RequirePackage[bidi=basic]{babel}
+\babelprovide[import]{english}
+\babelprovide[import]{german}
+\babelprovide[import]{spanish}
+\babelprovide[import]{french}
+\babelprovide[import]{arabic}
+\babelprovide[import]{hindi}
+\babelprovide[import]{chinese}
+\babelfont{rm}{Times New Roman}
+\babelfont[arabic]{rm}{Amiri}
+\babelfont[hindi]{rm}{Noto Serif Devanagari}
+\babelfont[chinese]{rm}{FandolSong}
+\newcommand{\atscvSectionMap}[1]{#1}
+\endinput

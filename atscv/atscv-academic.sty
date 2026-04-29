@@ -1,0 +1,7 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{atscv-academic}[2026/04/29 v0.1.0 academic mode]
+\RequirePackage[backend=biber,sorting=ydnt,doi=true,url=false,isbn=false]{biblatex}
+\newcommand{\cvorcid}[1]{\par\textbf{ORCID}: \href{https://orcid.org/#1}{#1}\par}
+\newcommand{\cvprimaryauthor}[1]{\def\atscvprimaryauthor{#1}}
+\newcommand{\printprimarypubs}{\printbibliography[title={Publications}]}
+\endinput
