@@ -1,0 +1,45 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{atscv-lang}[2026/04/29 Multilingual configuration for atscv]
+\RequirePackage{etoolbox}
+\RequirePackage[bidi=basic]{babel}
+\RequirePackage{fontspec}
+
+\newcommand{\cv@lang}{en}
+\newfontfamily\cvlatin{TeX Gyre Termes}
+\newfontfamily\cvcjk{FandolSong-Regular}
+\newfontfamily\cvarabic[Script=Arabic]{Amiri}
+\newfontfamily\cvhindi[Script=Devanagari]{Noto Serif Devanagari}
+
+\newcommand{\cv@setupbabel}{%
+  \ifstrequal{\cv@lang}{en}{\babelprovide[main,import]{english}}{}
+  \ifstrequal{\cv@lang}{de}{\babelprovide[main,import]{german}}{}
+  \ifstrequal{\cv@lang}{es}{\babelprovide[main,import]{spanish}}{}
+  \ifstrequal{\cv@lang}{fr}{\babelprovide[main,import]{french}}{}
+  \ifstrequal{\cv@lang}{zh}{\babelprovide[main,import]{chinese}}{}
+  \ifstrequal{\cv@lang}{ar}{\babelprovide[main, import]{arabic}\babelfont{rm}{Amiri}}{}
+  \ifstrequal{\cv@lang}{hi}{\babelprovide[main,import]{hindi}}{}
+}
+
+\newcommand{\cvscript}[1]{%
+  \ifstrequal{\cv@lang}{zh}{{\cvcjk #1}}{%
+    \ifstrequal{\cv@lang}{ar}{{\cvarabic #1}}{%
+      \ifstrequal{\cv@lang}{hi}{{\cvhindi #1}}{{\cvlatin #1}}%
+    }%
+  }%
+}
+
+\newcommand{\cv@section@profile}{Profile}
+\newcommand{\cv@section@experience}{Professional Experience}
+\newcommand{\cv@section@education}{Education}
+\newcommand{\cv@section@skills}{Skills}
+\newcommand{\cv@section@certifications}{Certifications}
+\newcommand{\cv@section@projects}{Projects}
+
+\newcommand{\cv@settranslations}{%
+\ifstrequal{\cv@lang}{de}{\renewcommand{\cv@section@profile}{Profil}\renewcommand{\cv@section@experience}{Berufserfahrung}\renewcommand{\cv@section@education}{Ausbildung}\renewcommand{\cv@section@skills}{Kenntnisse}\renewcommand{\cv@section@certifications}{Zertifikate}\renewcommand{\cv@section@projects}{Projekte}}{}
+\ifstrequal{\cv@lang}{es}{\renewcommand{\cv@section@profile}{Perfil}\renewcommand{\cv@section@experience}{Experiencia Profesional}\renewcommand{\cv@section@education}{Educación}\renewcommand{\cv@section@skills}{Habilidades}\renewcommand{\cv@section@certifications}{Certificaciones}\renewcommand{\cv@section@projects}{Proyectos}}{}
+\ifstrequal{\cv@lang}{fr}{\renewcommand{\cv@section@profile}{Profil}\renewcommand{\cv@section@experience}{Expérience Professionnelle}\renewcommand{\cv@section@education}{Formation}\renewcommand{\cv@section@skills}{Compétences}\renewcommand{\cv@section@certifications}{Certifications}\renewcommand{\cv@section@projects}{Projets}}{}
+\ifstrequal{\cv@lang}{zh}{\renewcommand{\cv@section@profile}{简介}\renewcommand{\cv@section@experience}{工作经验}\renewcommand{\cv@section@education}{教育}\renewcommand{\cv@section@skills}{技能}\renewcommand{\cv@section@certifications}{认证}\renewcommand{\cv@section@projects}{项目}}{}
+\ifstrequal{\cv@lang}{ar}{\renewcommand{\cv@section@profile}{الملف الشخصي}\renewcommand{\cv@section@experience}{الخبرة المهنية}\renewcommand{\cv@section@education}{التعليم}\renewcommand{\cv@section@skills}{المهارات}\renewcommand{\cv@section@certifications}{الشهادات}\renewcommand{\cv@section@projects}{المشاريع}}{}
+\ifstrequal{\cv@lang}{hi}{\renewcommand{\cv@section@profile}{प्रोफ़ाइल}\renewcommand{\cv@section@experience}{व्यावसायिक अनुभव}\renewcommand{\cv@section@education}{शिक्षा}\renewcommand{\cv@section@skills}{कौशल}\renewcommand{\cv@section@certifications}{प्रमाणपत्र}\renewcommand{\cv@section@projects}{परियोजनाएँ}}{}
+}

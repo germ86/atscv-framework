@@ -1,0 +1,32 @@
+\DocumentMetadata{
+  testphase = {phase-II, math},
+  activate = tagging,
+  pdfstandard = A-2b,
+  pdfversion = 1.7
+}
+\documentclass{article}
+\usepackage[a4paper,margin=2cm]{geometry}
+\usepackage{hyperref}
+\title{atscv Manual}
+\date{2026-04-29}
+\begin{document}
+\maketitle
+\section{Introduction}
+atscv is a structured CV compiler for ATS parsing and human readability.
+\section{ATS principles}
+Linear reading order, semantic headings, plain bullets, and predictable tokenization are mandatory.
+\section{Why LaTeX fails in ATS (and how atscv fixes it)}
+Complex layouts (tables, columns, sidebars) scramble extracted text. atscv avoids those structures and enforces one flow.
+\section{Design modes explained}
+ats, modern, executive, consulting, and compact provide controlled styling while preserving ATS-safe structure.
+\section{How to write a good CV (STAR + impact)}
+Use Situation, Task, Action, Result and quantify outcomes by KPI, time, or cost.
+\section{Human scan principles (30-second rule)}
+Top-load impact, maintain hierarchy, and keep bullets concise and outcome-first.
+\section{Multilingual usage}
+LuaLaTeX + Unicode enables multilingual rendering without disrupting extraction order.
+\section{Example walkthrough}
+Compile examples/fabio-bigtech-modern.tex, run pdftotext, and verify ordering.
+\section{ATS validation workflow}
+Build with LuaLaTeX, check log warnings, run pdftotext, and compare extracted text to source intent.
+\end{document}
