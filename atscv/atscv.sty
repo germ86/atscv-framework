@@ -1,6 +1,7 @@
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesPackage{atscv}[2026/04/29 v0.2.0 ATS-safe CV core]
+\ProvidesPackage{atscv}[2026/04/29 v0.1.1 ATS-safe CV core]
 \RequirePackage{expl3,xparse}
+\RequirePackage{iftex}
 \RequirePackage{fontspec}
 \RequirePackage{babel}
 \RequirePackage{enumitem}
@@ -44,11 +45,56 @@
 
 \cs_new_protected:Npn \atscv_enable_tagging: {
   \bool_if:NT \l__atscv_tagging_bool {
-    \cs_if_exist:NTF \pdfmanagement_add:nnn {\RequirePackage{tagpdf}\tagpdfsetup{activate-all,interwordspace=true}}
-    {\PackageWarning{atscv}{tagging=true requested but PDF management is unavailable; proceeding without tagging}}
+    \cs_if_exist:NTF \pdfmanagement_add:nnn {
+      \RequirePackage{tagpdf}
+      \tagpdfsetup{activate-all,interwordspace=true}
+    }{
+      \PackageWarning{atscv}{tagging=true requested but PDF management is unavailable; proceeding without tagging}
+    }
   }
 }
 \AtBeginDocument{\atscv_enable_tagging:}
+
+\NewDocumentCommand{\cvsetmode}{m}{\keys_set:nn{atscv}{mode=#1}}
+\cs_new:Npn \atscv_mode_title_format: {
+  \str_case:VnF \l__atscv_mode_tl {
+    {ats}{\titleformat{\section}{\Large\bfseries}{}{0pt}{}\titlespacing*{\section}{0pt}{1em}{0.25em}}
+    {modern}{\titleformat{\section}{\Large\bfseries\color{blue!50!black}}{}{0pt}{}\titlespacing*{\section}{0pt}{1em}{0.25em}}
+    {executive}{\titleformat{\section}{\Large\bfseries}{}{0pt}{}[\titlerule]}
+    {consulting}{\titleformat{\section}{\Large\bfseries\scshape}{}{0pt}{}[\titlerule]}
+    {compact}{\titleformat{\section}{\large\bfseries}{}{0pt}{}\titlespacing*{\section}{0pt}{0.6em}{0.2em}}
+  }{\titleformat{\section}{\Large\bfseries}{}{0pt}{}}
+}
+\AtBeginDocument{\atscv_mode_title_format:}
+
+\NewDocumentCommand{\cvname}{m}{\par\section*{#1}}
+\NewDocumentCommand{\cvtitle}{m}{\par\textbf{#1}\par}
+\NewDocumentCommand{\cvemail}{m}{\par #1\par}
+\NewDocumentCommand{\cvphone}{m}{\par #1\par}
+\NewDocumentCommand{\cvlocation}{m}{\par #1\par}
+\NewDocumentCommand{\cvlinkedin}{m}{\par #1\par}
+\NewDocumentCommand{\cvorcid}{m}{\par #1\par}
+\NewDocumentCommand{\cvdoi}{m}{\par #1\par}
+\NewDocumentCommand{\cvcontact}{m}{\par #1\par}
+\NewDocumentCommand{\makecvheader}{}
+\NewDocumentCommand{\cvsection}{m}{\section*{#1}}
+\NewDocumentCommand{\cvprofile}{m}{\par #1\par}
+\RenewDocumentEnvironment{cvprofile}{}{}{\par}
+
+\NewDocumentCommand{\cventry}{m m m m}{%
+\par\textbf{#1} \hfill #2\par {\itshape #3\par}#4\par}
+\NewDocumentCommand{\cventryfive}{m m m m m}{\cventry{#1 | #2}{#4}{#3}{#5}}
+\NewDocumentEnvironment{cvrole}{m m m m}{\cventry{#1 | #2}{#4}{#3}{}}{}
+\NewDocumentCommand{\cvskills}{m}{#1\par}
+\NewDocumentCommand{\cvskillgroup}{m m}{\par\textbf{#1}: #2\par}
+\NewDocumentCommand{\cvachievement}{m}{\par\noindent\textbullet\ #1\par}
+\NewDocumentCommand{\cvimpact}{m}{\par\textbf{Impact:} #1\par}
+\NewDocumentCommand{\cvhighlight}{m}{\par\textbf{#1}\par}
+\NewDocumentCommand{\cvkpi}{m m}{\par\textbf{#1}: #2\par}
+\NewDocumentCommand{\cvproject}{m m m}{\par\textbf{#1} \hfill #2\par #3\par}
+\NewDocumentCommand{\cvcertification}{m m m}{\par\textbf{#1}, #2 \hfill #3\par}
+\NewDocumentCommand{\cveducation}{m m m}{\par\textbf{#1}, #2 \hfill #3\par}
+\ExplSyntaxOff
 
 \NewDocumentCommand{\cvsetmode}{m}{\keys_set:nn{atscv}{mode=#1}\atscv_mode_apply:}
 \cs_new_protected:Npn \atscv_mode_apply: {
