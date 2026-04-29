@@ -1,63 +1,46 @@
 # atscv-framework
 
-Production-ready ATS-safe LaTeX CV system with multi-mode design layers, multilingual support, reusable macros, and validation workflow.
+ATS-safe LaTeX CV framework for Big Tech, executive search, consulting, infrastructure, security, cloud, and human-risk roles.
 
-## Quick start
-
-```bash
-lualatex -interaction=nonstopmode -output-directory=build examples/minimal.tex
-pdftotext build/minimal.pdf -
-```
-
-## Language support
-
-Class option:
-
-```tex
-\documentclass[lang=en]{atscv}
-```
-
-Supported: `en`, `de`, `es`, `fr`, `zh`, `ar` (RTL), `hi`.
-
-Implementation details:
-- LuaLaTeX only
-- `babel` with `bidi=basic`
-- `fontspec` fallback families for Latin, CJK, Arabic, and Devanagari
+## Compiler requirements
+- LuaLaTeX
+- pdftotext
+- qpdf
 
 ## Design modes
+- `ats`: strict parsing mode, black/white only, no decoration.
+- `modern`: Big Tech style with subtle accent hierarchy.
+- `executive`: KPI-first leadership narrative.
+- `consulting`: concise impact-first structure.
+- `compact`: space-efficient one-page mode.
 
-- `ats`: ultra-minimal, no color, maximum parser reliability.
-- `modern`: Big Tech readability with restrained accent hierarchy.
-- `executive`: KPI-first leadership narrative with stronger separators.
-- `consulting`: structured, McKinsey-like section discipline.
-- `compact`: dense 1-page optimization with reduced whitespace.
+## ATS-safe policy
+- No hidden text.
+- No white-on-white keyword stuffing.
+- No tables, multicol, minipage, parbox, sidebars, or text boxes.
 
-ATS constraints preserved:
-- no tables
-- no multicol
-- no minipage
-- no sidebars
+## Keyword helper philosophy
+Use transparent alignment helpers:
+- `\cvtargetrole{...}`
+- `\cvkeywordgroup{category}{keywords}`
+- `\cvcompetency{competency}{evidence}`
+- `\cvrolefit{role}{fit statement}`
+- `\cvtechstack{category}{tools}`
+- `\cvdomainfocus{...}`
 
-## Core macros
+## Cover letter mapping
+See `docs/cv-cover-letter-mapping.md` for requirement-to-evidence mapping and reusable argument tables.
 
-- `\cvprofile`, `\cvsection`, `\cventry`, `\cvachievement`, `\cvskills`
-- `\cvimpact`, `\cvkpi`, `\cvproject`, `\cvhighlight`
+## Interview response frameworks
+See `docs/interview-response-frameworks.md` for STAR, OODA, and combined technical interview examples.
 
-## Examples
-
-- `examples/minimal.tex`
-- `examples/fabio-bigtech-modern.tex`
-- `examples/fabio-executive.tex`
-- `examples/fabio-consulting.tex`
-- `examples/fabio-ats.tex`
-- `examples/de-careertrack.tex`
-- `examples/multilang-en.tex`
-- `examples/multilang-de.tex`
-- `examples/multilang-zh.tex`
-- `examples/multilang-ar.tex`
-- `examples/multilang-hi.tex`
-
-## Documentation
-
-- Manual source: `docs/atscv-manual.tex`
-
+## Validation workflow
+```bash
+lualatex main.tex
+lualatex examples/fabio-bigtech-modern.tex
+lualatex examples/fabio-executive.tex
+lualatex examples/fabio-consulting.tex
+lualatex examples/fabio-ats.tex
+pdftotext output.pdf output.txt
+qpdf --check output.pdf
+```
