@@ -1,0 +1,30 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{atscv-base}[2026/05/03 v0.2.0 ATSCV base module system]
+\RequirePackage{expl3,xparse}
+\RequirePackage{iftex}
+\RequirePackage{fontspec}
+\RequirePackage{babel}
+\RequirePackage{enumitem}
+\RequirePackage{hyperref}
+\RequirePackage{geometry}
+\RequirePackage{xcolor}
+\RequirePackage{titlesec}
+\geometry{margin=1in}
+\IfFontExistsTF{TeX Gyre Termes}{\setmainfont{TeX Gyre Termes}}{\setmainfont{Latin Modern Roman}}
+\IfFontExistsTF{TeX Gyre Heros}{\setsansfont{TeX Gyre Heros}}{\setsansfont{Latin Modern Sans}}
+\defaultfontfeatures{Ligatures=NoCommon}
+\hypersetup{hidelinks,unicode=true,pdfencoding=auto}
+\setlength{\parindent}{0pt}\setlength{\parskip}{0.35em}
+\newcommand{\cvNameSize}{\fontsize{20}{24}\selectfont}
+\newcommand{\cvTitleSize}{\fontsize{12}{15}\selectfont}
+\newcommand{\cvSectionSize}{\fontsize{12}{15}\selectfont}
+\newcommand{\cvBodySize}{\fontsize{10.5}{14}\selectfont}
+\newlength{\cvSectionSpace}\newlength{\cvEntrySpace}\newlength{\cvBulletSpace}
+\setlength{\cvSectionSpace}{0.9em}\setlength{\cvEntrySpace}{0.55em}\setlength{\cvBulletSpace}{0.2em}
+\colorlet{cvPrimary}{black}\colorlet{cvAccent}{black}\colorlet{cvMuted}{black!70}
+\newcommand{\atscvSetColors}[3]{\colorlet{cvPrimary}{#1}\colorlet{cvAccent}{#2}\colorlet{cvMuted}{#3}}
+\newcommand{\atscvSetLayout}[3]{\geometry{margin=#1}\setlength{\cvSectionSpace}{#2}\setlength{\cvEntrySpace}{#3}}
+\newcommand{\atscvSetStyleSection}[1]{\titleformat{\section}{#1}{}{0pt}{}\titlespacing*{\section}{0pt}{\cvSectionSpace}{0.2em}}
+\newcommand{\cvname}[1]{{\cvNameSize\bfseries\color{cvPrimary} #1\par}}
+\newcommand{\cvtitle}[1]{{\cvTitleSize\color{cvMuted} #1\par}}
+\newcommand{\cvsection}[1]{\vspace{\cvSectionSpace}\section*{#1}}
