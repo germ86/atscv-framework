@@ -1,147 +1,51 @@
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesPackage{atscv}[2026/04/29 v0.1.1 ATS-safe CV core]
-\RequirePackage{expl3,xparse}
-\RequirePackage{iftex}
-\RequirePackage{fontspec}
-\RequirePackage{babel}
-\RequirePackage{enumitem}
-\RequirePackage{hyperref}
-\RequirePackage{geometry}
-\RequirePackage{xcolor}
-\RequirePackage{titlesec}
-
-\geometry{margin=1in}
-\IfFontExistsTF{TeX Gyre Termes}{\setmainfont{TeX Gyre Termes}}{\setmainfont{Latin Modern Roman}}
-\IfFontExistsTF{TeX Gyre Heros}{\setsansfont{TeX Gyre Heros}}{\setsansfont{Latin Modern Sans}}
-\defaultfontfeatures{Ligatures=NoCommon}
-\hypersetup{hidelinks,unicode=true,pdfencoding=auto}
-\setlength{\parindent}{0pt}
-\setlength{\parskip}{0.35em}
-
-\newcommand{\cvPrimaryColor}{black}
-\newcommand{\cvAccentColor}{black}
-\newcommand{\cvMutedColor}{black}
-\newcommand{\cvNameSize}{\fontsize{20}{24}\selectfont}
-\newcommand{\cvTitleSize}{\fontsize{12}{15}\selectfont}
-\newcommand{\cvSectionSize}{\fontsize{12}{15}\selectfont}
-\newcommand{\cvBodySize}{\fontsize{10.5}{14}\selectfont}
-\newlength{\cvSectionSpace}\newlength{\cvEntrySpace}\newlength{\cvBulletSpace}
-\setlength{\cvSectionSpace}{0.9em}
-\setlength{\cvEntrySpace}{0.55em}
-\setlength{\cvBulletSpace}{0.2em}
-
-\ExplSyntaxOn
-\keys_define:nn { atscv } {
-  mode .tl_set:N = \l__atscv_mode_tl,
-  mode .initial:n = modern,
-  lang .tl_set:N = \l__atscv_lang_tl,
-  lang .initial:n = en,
-  atsstrict .bool_set:N = \l__atscv_strict_bool,
-  atsstrict .initial:n = true,
-  tagging .bool_set:N = \l__atscv_tagging_bool,
-  tagging .initial:n = false
+\ProvidesPackage{atscv}[2026/05/03 v0.3.2 core macros]
+\RequirePackage{atscv-base}
+\newcommand{\cvdebugoptions}{\par\textbf{atscv module configuration:}\par Schema: \atscv@schema\par Color: \atscv@color\par Style: \atscv@style\par Layout: \atscv@layout\par Language: \atscv@lang\par}
+\newcommand{\atscv@name}{}
+\newcommand{\atscv@title}{}
+\newcommand{\atscv@email}{}
+\newcommand{\atscv@phone}{}
+\newcommand{\atscv@location}{}
+\newcommand{\cvname}[1]{\renewcommand{\atscv@name}{#1}}
+\newcommand{\cvtitle}[1]{\renewcommand{\atscv@title}{#1}}
+\newcommand{\cvemail}[1]{\renewcommand{\atscv@email}{#1}}
+\newcommand{\cvphone}[1]{\renewcommand{\atscv@phone}{#1}}
+\newcommand{\cvlocation}[1]{\renewcommand{\atscv@location}{#1}}
+\newcommand{\makecvheader}{%
+  {\atscvNameSize\bfseries\color{cvprimary}\atscv@name\par}
+  {\atscvTitleSize\color{cvmuted}\atscv@title\par}
+  \def\atscv@sep{}%
+  \ifx\atscv@email\@empty\else\atscv@sep\atscv@email\def\atscv@sep{\ \textbar\ }\fi
+  \ifx\atscv@phone\@empty\else\atscv@sep\atscv@phone\def\atscv@sep{\ \textbar\ }\fi
+  \ifx\atscv@location\@empty\else\atscv@sep\atscv@location\fi
+  \par
 }
-\NewDocumentCommand{\atscvsetup}{m}{\keys_set:nn{atscv}{#1}}
-
-\cs_new_protected:Npn \atscv_enable_tagging: {
-  \bool_if:NT \l__atscv_tagging_bool {
-    \cs_if_exist:NTF \pdfmanagement_add:nnn {
-      \RequirePackage{tagpdf}
-      \tagpdfsetup{activate-all,interwordspace=true}
-    }{
-      \PackageWarning{atscv}{tagging=true requested but PDF management is unavailable; proceeding without tagging}
-    }
-  }
-}
-\AtBeginDocument{\atscv_enable_tagging:}
-
-\NewDocumentCommand{\cvsetmode}{m}{\keys_set:nn{atscv}{mode=#1}}
-\cs_new:Npn \atscv_mode_title_format: {
-  \str_case:VnF \l__atscv_mode_tl {
-    {ats}{\titleformat{\section}{\Large\bfseries}{}{0pt}{}\titlespacing*{\section}{0pt}{1em}{0.25em}}
-    {modern}{\titleformat{\section}{\Large\bfseries\color{blue!50!black}}{}{0pt}{}\titlespacing*{\section}{0pt}{1em}{0.25em}}
-    {executive}{\titleformat{\section}{\Large\bfseries}{}{0pt}{}[\titlerule]}
-    {consulting}{\titleformat{\section}{\Large\bfseries\scshape}{}{0pt}{}[\titlerule]}
-    {compact}{\titleformat{\section}{\large\bfseries}{}{0pt}{}\titlespacing*{\section}{0pt}{0.6em}{0.2em}}
-  }{\titleformat{\section}{\Large\bfseries}{}{0pt}{}}
-}
-\AtBeginDocument{\atscv_mode_title_format:}
-
-\NewDocumentCommand{\cvname}{m}{\par\section*{#1}}
-\NewDocumentCommand{\cvtitle}{m}{\par\textbf{#1}\par}
-\NewDocumentCommand{\cvemail}{m}{\par #1\par}
-\NewDocumentCommand{\cvphone}{m}{\par #1\par}
-\NewDocumentCommand{\cvlocation}{m}{\par #1\par}
-\NewDocumentCommand{\cvlinkedin}{m}{\par #1\par}
-\NewDocumentCommand{\cvorcid}{m}{\par #1\par}
-\NewDocumentCommand{\cvdoi}{m}{\par #1\par}
-\NewDocumentCommand{\cvcontact}{m}{\par #1\par}
-\NewDocumentCommand{\makecvheader}{}
-\NewDocumentCommand{\cvsection}{m}{\section*{#1}}
-\NewDocumentCommand{\cvprofile}{m}{\par #1\par}
-\RenewDocumentEnvironment{cvprofile}{}{}{\par}
-
-\NewDocumentCommand{\cventry}{m m m m}{%
-\par\textbf{#1} \hfill #2\par {\itshape #3\par}#4\par}
-\NewDocumentCommand{\cventryfive}{m m m m m}{\cventry{#1 | #2}{#4}{#3}{#5}}
-\NewDocumentEnvironment{cvrole}{m m m m}{\cventry{#1 | #2}{#4}{#3}{}}{}
-\NewDocumentCommand{\cvskills}{m}{#1\par}
-\NewDocumentCommand{\cvskillgroup}{m m}{\par\textbf{#1}: #2\par}
-\NewDocumentCommand{\cvachievement}{m}{\par\noindent\textbullet\ #1\par}
-\NewDocumentCommand{\cvimpact}{m}{\par\textbf{Impact:} #1\par}
-\NewDocumentCommand{\cvhighlight}{m}{\par\textbf{#1}\par}
-\NewDocumentCommand{\cvkpi}{m m}{\par\textbf{#1}: #2\par}
-\NewDocumentCommand{\cvproject}{m m m}{\par\textbf{#1} \hfill #2\par #3\par}
-\NewDocumentCommand{\cvcertification}{m m m}{\par\textbf{#1}, #2 \hfill #3\par}
-\NewDocumentCommand{\cveducation}{m m m}{\par\textbf{#1}, #2 \hfill #3\par}
-\ExplSyntaxOff
-
-\NewDocumentCommand{\cvsetmode}{m}{\keys_set:nn{atscv}{mode=#1}\atscv_mode_apply:}
-\cs_new_protected:Npn \atscv_mode_apply: {
-  \str_case:VnF \l__atscv_mode_tl {
-    {ats}{\colorlet{cvPrimary}{black}\colorlet{cvAccent}{black}\colorlet{cvMuted}{black}\renewcommand{\cvPrimaryColor}{black}\renewcommand{\cvAccentColor}{black}\renewcommand{\cvMutedColor}{black}\renewcommand{\cvSectionSize}{\fontsize{11.5}{14}\selectfont}\setlength{\cvSectionSpace}{0.6em}\setlength{\cvEntrySpace}{0.35em}\setlength{\cvBulletSpace}{0.1em}\titleformat{\section}{\cvSectionSize\bfseries\color{cvPrimary}}{}{0pt}{}\titlespacing*{\section}{0pt}{\cvSectionSpace}{0.2em}}
-    {modern}{\colorlet{cvPrimary}{black}\colorlet{cvAccent}{blue!45!black}\colorlet{cvMuted}{black!70}\renewcommand{\cvPrimaryColor}{black}\renewcommand{\cvAccentColor}{blue!45!black}\renewcommand{\cvMutedColor}{black!70}\renewcommand{\cvSectionSize}{\fontsize{12.5}{16}\selectfont}\setlength{\cvSectionSpace}{0.95em}\setlength{\cvEntrySpace}{0.55em}\setlength{\cvBulletSpace}{0.18em}\titleformat{\section}{\cvSectionSize\bfseries\color{cvAccent}}{}{0pt}{}[\titlerule]\titlespacing*{\section}{0pt}{\cvSectionSpace}{0.25em}}
-    {executive}{\colorlet{cvPrimary}{black}\colorlet{cvAccent}{black!85}\colorlet{cvMuted}{black!60}\renewcommand{\cvPrimaryColor}{black}\renewcommand{\cvAccentColor}{black!85}\renewcommand{\cvMutedColor}{black!60}\renewcommand{\cvSectionSize}{\fontsize{13}{16}\selectfont}\setlength{\cvSectionSpace}{1em}\setlength{\cvEntrySpace}{0.6em}\setlength{\cvBulletSpace}{0.2em}\titleformat{\section}{\cvSectionSize\bfseries\color{cvAccent}}{}{0pt}{}[\titlerule]\titlespacing*{\section}{0pt}{\cvSectionSpace}{0.3em}}
-    {consulting}{\colorlet{cvPrimary}{black}\colorlet{cvAccent}{black}\colorlet{cvMuted}{black!70}\renewcommand{\cvPrimaryColor}{black}\renewcommand{\cvAccentColor}{black}\renewcommand{\cvMutedColor}{black!70}\renewcommand{\cvSectionSize}{\fontsize{12}{15}\selectfont}\setlength{\cvSectionSpace}{0.85em}\setlength{\cvEntrySpace}{0.45em}\setlength{\cvBulletSpace}{0.16em}\titleformat{\section}{\cvSectionSize\bfseries\scshape\color{cvAccent}}{}{0pt}{}\titlespacing*{\section}{0pt}{\cvSectionSpace}{0.2em}}
-    {compact}{\colorlet{cvPrimary}{black}\colorlet{cvAccent}{black}\colorlet{cvMuted}{black!70}\renewcommand{\cvPrimaryColor}{black}\renewcommand{\cvAccentColor}{black}\renewcommand{\cvMutedColor}{black!70}\renewcommand{\cvSectionSize}{\fontsize{11}{13}\selectfont}\renewcommand{\cvBodySize}{\fontsize{10}{12}\selectfont}\setlength{\cvSectionSpace}{0.55em}\setlength{\cvEntrySpace}{0.3em}\setlength{\cvBulletSpace}{0.08em}\titleformat{\section}{\cvSectionSize\bfseries\color{cvPrimary}}{}{0pt}{}\titlespacing*{\section}{0pt}{\cvSectionSpace}{0.15em}}
-  }{\titleformat{\section}{\cvSectionSize\bfseries\color{black}}{}{0pt}{}}
-}
-\AtBeginDocument{\atscv_mode_apply:}
-
-\NewDocumentCommand{\cvname}{m}{{\cvNameSize\bfseries\color{cvPrimary} #1\par}}
-\NewDocumentCommand{\cvtitle}{m}{{\cvTitleSize\color{cvMuted} #1\par}}
-\NewDocumentCommand{\cvemail}{m}{{\cvBodySize #1\par}}
-\NewDocumentCommand{\cvphone}{m}{{\cvBodySize #1\par}}
-\NewDocumentCommand{\cvlocation}{m}{{\cvBodySize #1\par}}
-\NewDocumentCommand{\cvlinkedin}{m}{{\cvBodySize #1\par}}
-\NewDocumentCommand{\cvorcid}{m}{{\cvBodySize #1\par}}
-\NewDocumentCommand{\cvdoi}{m}{{\cvBodySize #1\par}}
-\NewDocumentCommand{\cvcontact}{m}{{\cvBodySize #1\par}}
-\NewDocumentCommand{\makecvheader}{}
-\NewDocumentCommand{\cvsection}{m}{\vspace{\cvSectionSpace}\section*{#1}}
-\NewDocumentCommand{\cvprofile}{m}{{\cvBodySize #1\par}}
-\RenewDocumentEnvironment{cvprofile}{}{}{\par}
-
-\NewDocumentCommand{\cventry}{m m m m}{\vspace{\cvEntrySpace}{\cvBodySize\bfseries\color{cvPrimary} #1 \hfill #2\par}{\cvBodySize\color{cvMuted} #3\par}#4\par}
-\NewDocumentCommand{\cventryfive}{m m m m m}{\cventry{#1 | #2}{#4}{#3}{#5}}
-\NewDocumentEnvironment{cvrole}{m m m m}{\cventry{#1 | #2}{#4}{#3}{\ignorespaces}}{}
-\NewDocumentCommand{\cvskills}{m}{{\cvBodySize #1\par}}
-\NewDocumentCommand{\cvskillgroup}{m m}{{\cvBodySize\textbf{#1}: #2\par}}
-\NewDocumentCommand{\cvachievement}{m}{{\cvBodySize\par\noindent\textbullet\ #1\par\vspace{\cvBulletSpace}}}
-\NewDocumentCommand{\cvimpact}{m m}{{\cvBodySize\textbf{#1}: #2\par}}
-\NewDocumentCommand{\cvhighlight}{m}{{\cvBodySize\textbf{#1}\par}}
-\NewDocumentCommand{\cvkpi}{m m}{{\cvBodySize\textbf{#1}: #2\par}}
-\NewDocumentCommand{\cvproject}{m m m}{{\cvBodySize\textbf{#1} \hfill #2\par #3\par}}
-\NewDocumentCommand{\cvcertification}{m m m}{{\cvBodySize\textbf{#1}, #2 \hfill #3\par}}
-\NewDocumentCommand{\cveducation}{m m m}{{\cvBodySize\textbf{#1}, #2 \hfill #3\par}}
-
-\NewDocumentCommand{\cvtargetrole}{m}{{\cvBodySize\textbf{Target Role:} #1\par}}
-\NewDocumentCommand{\cvkeywordgroup}{m m}{{\cvBodySize\textbf{#1 Keywords:} #2\par}}
-\NewDocumentCommand{\cvcompetency}{m m}{{\cvBodySize\textbf{#1:} #2\par}}
-\NewDocumentCommand{\cvrolefit}{m m}{{\cvBodySize\textbf{Role Fit -- #1:} #2\par}}
-\NewDocumentCommand{\cvtechstack}{m m}{{\cvBodySize\textbf{#1 Stack:} #2\par}}
-\NewDocumentCommand{\cvdomainfocus}{m}{{\cvBodySize\textbf{Domain Focus:} #1\par}}
-\NewDocumentCommand{\cvstar}{m m m m}{{\cvBodySize\textbf{Situation:} #1\par\textbf{Task:} #2\par\textbf{Action:} #3\par\textbf{Result:} #4\par}}
-\NewDocumentCommand{\cvooda}{m m m m}{{\cvBodySize\textbf{Observe:} #1\par\textbf{Orient:} #2\par\textbf{Decide:} #3\par\textbf{Act:} #4\par}}
-\ExplSyntaxOff
+\newcommand{\cvsection}[1]{\vspace{\atscvSectionBefore}{\atscvSectionSize\bfseries\color{cvprimary} #1\par}\vspace{0.1em}{\color{cvdivider}\rule{\linewidth}{\atscvDividerThickness}}\vspace{\atscvSectionAfter}}
+\newcommand{\cvprofile}[1]{\par\color{cvtext}#1\par}
+\newcommand{\cventry}[4]{\vspace{\atscvEntrySpace}\textbf{#1} \hfill #2\par\textit{#3}\par#4\par}
+\newcommand{\cvachievement}[1]{\par\noindent\textbullet\ #1\par}
+\newcommand{\cvskillgroup}[2]{\par\textbf{#1}: #2\par}
+\newcommand{\cvhighlight}[1]{{\color{cvaccent}\textbf{#1}\par}}
+% compatibility shims for legacy templates
+\newcommand{\cvcontact}[1]{\renewcommand{\atscv@email}{#1}}
+\newcommand{\cvlinkedin}[1]{\par #1\par}
+\newcommand{\cvorcid}[1]{\par #1\par}
+\newcommand{\cvdoi}[1]{\par #1\par}
+\newcommand{\cventryfive}[5]{\cventry{#1 | #2}{#4}{#3}{#5}}
+\newenvironment{cvrole}[4]{\cventry{#1 | #2}{#4}{#3}{\ignorespaces}}{}
+\newcommand{\cvskills}[1]{\par #1\par}
+\newcommand{\cvimpact}[2]{\par\textbf{#1}: #2\par}
+\newcommand{\cvkpi}[2]{\par\textbf{#1}: #2\par}
+\newcommand{\cvproject}[3]{\par\textbf{#1} \hfill #2\par #3\par}
+\newcommand{\cvcertification}[3]{\par\textbf{#1}, #2 \hfill #3\par}
+\newcommand{\cveducation}[3]{\par\textbf{#1}, #2 \hfill #3\par}
+\newcommand{\cvtargetrole}[1]{\par\textbf{Target Role:} #1\par}
+\newcommand{\cvkeywordgroup}[2]{\par\textbf{#1 Keywords:} #2\par}
+\newcommand{\cvcompetency}[2]{\par\textbf{#1:} #2\par}
+\newcommand{\cvrolefit}[2]{\par\textbf{Role Fit -- #1:} #2\par}
+\newcommand{\cvtechstack}[2]{\par\textbf{#1 Stack:} #2\par}
+\newcommand{\cvdomainfocus}[1]{\par\textbf{Domain Focus:} #1\par}
+\newcommand{\cvstar}[4]{\par\textbf{Situation:} #1\par\textbf{Task:} #2\par\textbf{Action:} #3\par\textbf{Result:} #4\par}
+\newcommand{\cvooda}[4]{\par\textbf{Observe:} #1\par\textbf{Orient:} #2\par\textbf{Decide:} #3\par\textbf{Act:} #4\par}
 \endinput

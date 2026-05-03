@@ -1,0 +1,10 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{atscv-layout-ats}[2026/05/03 v0.3.0 atscv layout]
+\typeout{ATSCV MODULE loaded layout=ats}
+\renewcommand{\atscv@layout}{ats}
+\renewcommand{\atscvPageMargin}{2.0cm}
+\renewcommand{\atscvSectionBefore}{0.7em}
+\renewcommand{\atscvEntrySpace}{0.35em}
+\AtBeginDocument{\geometry{margin=\atscvPageMargin}}
+\RequirePackage{atscv-color-black}
+\endinput

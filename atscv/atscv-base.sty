@@ -1,0 +1,41 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{atscv-base}[2026/05/03 v0.3.0 base tokens]
+\RequirePackage{iftex}
+\ifLuaTeX\else\PackageError{atscv-base}{LuaLaTeX required}{}\fi
+\RequirePackage{fontspec,babel,hyperref,geometry,xcolor,titlesec}
+\newcommand{\atscv@schema}{general}
+\newcommand{\atscv@color}{blue}
+\newcommand{\atscv@style}{modern}
+\newcommand{\atscv@layout}{standard}
+\newcommand{\atscv@lang}{en}
+\definecolor{cvtext}{HTML}{111111}
+\definecolor{cvprimary}{HTML}{1E3A8A}
+\definecolor{cvaccent}{HTML}{1E40AF}
+\definecolor{cvmuted}{HTML}{555555}
+\definecolor{cvdivider}{HTML}{1E3A8A}
+\newcommand{\atscvNameSize}{\LARGE}
+\newcommand{\atscvTitleSize}{\normalsize}
+\newcommand{\atscvSectionSize}{\large}
+\newcommand{\atscvSectionBefore}{0.9em}
+\newcommand{\atscvSectionAfter}{0.25em}
+\newcommand{\atscvEntrySpace}{0.45em}
+\newcommand{\atscvDividerThickness}{0.6pt}
+\newcommand{\atscvBodyStretch}{1.08}
+\newcommand{\atscvPageMargin}{2.0cm}
+\newcommand{\headingProfile}{Profile}
+\newcommand{\headingExperience}{Experience}
+\newcommand{\headingEducation}{Education}
+\newcommand{\headingSkills}{Skills}
+\newcommand{\headingCertifications}{Certifications}
+\newcommand{\headingProjects}{Projects}
+\newcommand{\headingResearch}{Research}
+\newcommand{\headingLanguages}{Languages}
+\newcommand{\headingCommunity}{Community}
+\newcommand{\headingSummary}{Summary}
+\newcommand{\headingSelectedProjects}{Selected Projects}
+\geometry{margin=\atscvPageMargin}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.35em}
+\renewcommand{\baselinestretch}{\atscvBodyStretch}\normalsize
+\AtBeginDocument{\typeout{ATSCV CONFIG schema=\atscv@schema}\typeout{ATSCV CONFIG color=\atscv@color}\typeout{ATSCV CONFIG style=\atscv@style}\typeout{ATSCV CONFIG layout=\atscv@layout}\typeout{ATSCV CONFIG lang=\atscv@lang}}
+\endinput
