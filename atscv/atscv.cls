@@ -1,5 +1,5 @@
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{atscv}[2026/05/03 v0.3.0 modular ATS-safe CV class]
+\ProvidesClass{atscv}[2026/05/03 v0.3.1 modular ATS-safe CV class]
 \RequirePackage{iftex}
 \ifLuaTeX\else
   \ClassError{atscv}{atscv requires LuaLaTeX}{Switch compiler to LuaLaTeX (Overleaf: Menu > Compiler > LuaLaTeX).}
@@ -11,7 +11,12 @@
 \DeclareStringOption[modern]{style}
 \DeclareStringOption[standard]{layout}
 \DeclareStringOption[en]{lang}
+% legacy aliases
+\DeclareStringOption[]{mode}
+\DeclareStringOption[]{colorscheme}
 \ProcessKeyvalOptions*
+\ifx\atscv@mode\@empty\else\renewcommand{\atscv@style}{\atscv@mode}\fi
+\ifx\atscv@colorscheme\@empty\else\renewcommand{\atscv@color}{\atscv@colorscheme}\fi
 \LoadClass[11pt]{article}
 \RequirePackage{atscv-base}
 \RequirePackage{atscv-schema-\atscv@schema}

@@ -1,13 +1,26 @@
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesPackage{atscv}[2026/05/03 v0.3.0 core macros]
+\ProvidesPackage{atscv}[2026/05/03 v0.3.1 core macros]
 \RequirePackage{atscv-base}
 \newcommand{\cvdebugoptions}{\par\textbf{atscv module configuration:}\par Schema: \atscv@schema\par Color: \atscv@color\par Style: \atscv@style\par Layout: \atscv@layout\par Language: \atscv@lang\par}
-\newcommand{\cvname}[1]{{\atscvNameSize\bfseries\color{cvprimary} #1\par}}
-\newcommand{\cvtitle}[1]{{\atscvTitleSize\color{cvmuted} #1\par}}
-\newcommand{\cvemail}[1]{\ifx\relax#1\relax\else {\color{cvtext}#1\par}\fi}
-\newcommand{\cvphone}[1]{\ifx\relax#1\relax\else {\color{cvtext}#1\par}\fi}
-\newcommand{\cvlocation}[1]{\ifx\relax#1\relax\else {\color{cvtext}#1\par}\fi}
-\newcommand{\makecvheader}{}
+\newcommand{\atscv@name}{}
+\newcommand{\atscv@title}{}
+\newcommand{\atscv@email}{}
+\newcommand{\atscv@phone}{}
+\newcommand{\atscv@location}{}
+\newcommand{\cvname}[1]{\renewcommand{\atscv@name}{#1}}
+\newcommand{\cvtitle}[1]{\renewcommand{\atscv@title}{#1}}
+\newcommand{\cvemail}[1]{\renewcommand{\atscv@email}{#1}}
+\newcommand{\cvphone}[1]{\renewcommand{\atscv@phone}{#1}}
+\newcommand{\cvlocation}[1]{\renewcommand{\atscv@location}{#1}}
+\newcommand{\makecvheader}{%
+  {\atscvNameSize\bfseries\color{cvprimary}\atscv@name\par}
+  {\atscvTitleSize\color{cvmuted}\atscv@title\par}
+  \def\atscv@sep{}%
+  \ifx\atscv@email\@empty\else\atscv@sep\atscv@email\def\atscv@sep{\ \textbar\ }\fi
+  \ifx\atscv@phone\@empty\else\atscv@sep\atscv@phone\def\atscv@sep{\ \textbar\ }\fi
+  \ifx\atscv@location\@empty\else\atscv@sep\atscv@location\fi
+  \par
+}
 \newcommand{\cvsection}[1]{\vspace{\atscvSectionBefore}{\atscvSectionSize\bfseries\color{cvprimary} #1\par}\vspace{0.1em}{\color{cvdivider}\rule{\linewidth}{\atscvDividerThickness}}\vspace{\atscvSectionAfter}}
 \newcommand{\cvprofile}[1]{\par\color{cvtext}#1\par}
 \newcommand{\cventry}[4]{\vspace{\atscvEntrySpace}\textbf{#1} \hfill #2\par\textit{#3}\par#4\par}
