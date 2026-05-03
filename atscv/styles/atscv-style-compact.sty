@@ -1,0 +1,14 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{atscv-style-compact}[2026/05/03 v0.3.0 atscv style]
+\typeout{ATSCV MODULE loaded style=compact}
+\renewcommand{\atscv@style}{compact}
+\renewcommand{\atscvNameSize}{\large}
+\renewcommand{\atscvTitleSize}{\small}
+\renewcommand{\atscvSectionSize}{\normalsize}
+\renewcommand{\atscvSectionBefore}{0.6em}
+\renewcommand{\atscvSectionAfter}{0.15em}
+\renewcommand{\atscvEntrySpace}{0.3em}
+\renewcommand{\atscvDividerThickness}{0.5pt}
+\renewcommand{\atscvBodyStretch}{1.0}
+\AtBeginDocument{\renewcommand{\baselinestretch}{\atscvBodyStretch}\normalsize}
+\endinput

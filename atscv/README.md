@@ -1,28 +1,35 @@
 # atscv
 
-ATS-safe, LuaLaTeX-only CV class/package system.
+ATS-safe, LuaLaTeX-only CV framework with explicit, Overleaf-safe modules.
 
-## Build
-1. Ensure TeX Live 2025+ with LuaLaTeX and biber.
-2. Compile examples:
-   - `tests/compile-all.sh`
-3. Validate extraction order:
-   - `tests/extract-text.sh`
-   - compare outputs with `tests/expected-text-order.md`
+## Recommended Overleaf usage (explicit modules)
+```tex
+\documentclass{atscv}
+\usepackage{atscv-schema-cloud}
+\usepackage{atscv-color-green}
+\usepackage{atscv-style-modern}
+\usepackage{atscv-layout-standard}
+\usepackage{atscv-lang-en}
+```
 
-## Modes
-- ats
-- modern
-- academic
-- careertrack
-- executive
-- compact
+## Legacy class-option usage
+```tex
+\documentclass[lang=en,style=modern,color=green,schema=cloud,layout=standard]{atscv}
+```
 
-## Known limitations
-- Font availability depends on host system.
-- PDF/UA validation still requires veraPDF/PAC external checks.
+Explicit modules are recommended on Overleaf because they avoid stale option caching and are visible in logs via `ATSCV MODULE loaded ...`.
 
-## Roadmap
-- richer localized section enforcement
-- stricter PDF tag tree auditing
-- JSON/YAML input-to-TeX compiler frontend
+## Troubleshooting
+- Ensure compiler is **LuaLaTeX**.
+- Clear cached auxiliary files.
+- Confirm all local `atscv-*.sty` files are uploaded.
+- Compile `examples/overleaf-explicit-modules.tex`.
+- Inspect log for `ATSCV MODULE loaded ...` and `ATSCV CONFIG ...` lines.
+
+## Build and tests
+- `bash tests/check-forbidden-patterns.sh`
+- `bash tests/module-smoke.sh`
+- `bash tests/color-module-smoke.sh`
+- `bash tests/style-module-smoke.sh`
+- `bash tests/layout-module-smoke.sh`
+- `bash tests/language-module-smoke.sh`

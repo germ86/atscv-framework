@@ -1,0 +1,15 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{atscv-style-ats}[2026/05/03 v0.3.0 atscv style]
+\typeout{ATSCV MODULE loaded style=ats}
+\renewcommand{\atscv@style}{ats}
+\renewcommand{\atscvNameSize}{\Large}
+\renewcommand{\atscvTitleSize}{\normalsize}
+\renewcommand{\atscvSectionSize}{\normalsize}
+\renewcommand{\atscvSectionBefore}{0.7em}
+\renewcommand{\atscvSectionAfter}{0.2em}
+\renewcommand{\atscvEntrySpace}{0.35em}
+\renewcommand{\atscvDividerThickness}{0.5pt}
+\renewcommand{\atscvBodyStretch}{1.04}
+\RequirePackage{atscv-color-black}
+\AtBeginDocument{\renewcommand{\baselinestretch}{\atscvBodyStretch}\normalsize}
+\endinput
