@@ -1,5 +1,5 @@
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesPackage{atscv}[2026/05/03 v0.3.1 core macros]
+\ProvidesPackage{atscv}[2026/05/03 v0.3.2 core macros]
 \RequirePackage{atscv-base}
 \newcommand{\cvdebugoptions}{\par\textbf{atscv module configuration:}\par Schema: \atscv@schema\par Color: \atscv@color\par Style: \atscv@style\par Layout: \atscv@layout\par Language: \atscv@lang\par}
 \newcommand{\atscv@name}{}
@@ -27,4 +27,25 @@
 \newcommand{\cvachievement}[1]{\par\noindent\textbullet\ #1\par}
 \newcommand{\cvskillgroup}[2]{\par\textbf{#1}: #2\par}
 \newcommand{\cvhighlight}[1]{{\color{cvaccent}\textbf{#1}\par}}
+% compatibility shims for legacy templates
+\newcommand{\cvcontact}[1]{\renewcommand{\atscv@email}{#1}}
+\newcommand{\cvlinkedin}[1]{\par #1\par}
+\newcommand{\cvorcid}[1]{\par #1\par}
+\newcommand{\cvdoi}[1]{\par #1\par}
+\newcommand{\cventryfive}[5]{\cventry{#1 | #2}{#4}{#3}{#5}}
+\newenvironment{cvrole}[4]{\cventry{#1 | #2}{#4}{#3}{\ignorespaces}}{}
+\newcommand{\cvskills}[1]{\par #1\par}
+\newcommand{\cvimpact}[2]{\par\textbf{#1}: #2\par}
+\newcommand{\cvkpi}[2]{\par\textbf{#1}: #2\par}
+\newcommand{\cvproject}[3]{\par\textbf{#1} \hfill #2\par #3\par}
+\newcommand{\cvcertification}[3]{\par\textbf{#1}, #2 \hfill #3\par}
+\newcommand{\cveducation}[3]{\par\textbf{#1}, #2 \hfill #3\par}
+\newcommand{\cvtargetrole}[1]{\par\textbf{Target Role:} #1\par}
+\newcommand{\cvkeywordgroup}[2]{\par\textbf{#1 Keywords:} #2\par}
+\newcommand{\cvcompetency}[2]{\par\textbf{#1:} #2\par}
+\newcommand{\cvrolefit}[2]{\par\textbf{Role Fit -- #1:} #2\par}
+\newcommand{\cvtechstack}[2]{\par\textbf{#1 Stack:} #2\par}
+\newcommand{\cvdomainfocus}[1]{\par\textbf{Domain Focus:} #1\par}
+\newcommand{\cvstar}[4]{\par\textbf{Situation:} #1\par\textbf{Task:} #2\par\textbf{Action:} #3\par\textbf{Result:} #4\par}
+\newcommand{\cvooda}[4]{\par\textbf{Observe:} #1\par\textbf{Orient:} #2\par\textbf{Decide:} #3\par\textbf{Act:} #4\par}
 \endinput
